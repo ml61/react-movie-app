@@ -27,6 +27,7 @@ const SliderHome = () => {
           overview,
           release_date: year,
           poster_path: image,
+          id,
         } = item;
         overview =
           overview.length > 210 ? overview.slice(0, 210) + " ..." : overview;
@@ -36,6 +37,7 @@ const SliderHome = () => {
           overview,
           year: year.slice(0, 4),
           image: "https://image.tmdb.org/t/p/w500" + image,
+          id,
         };
         return newItem;
       });
