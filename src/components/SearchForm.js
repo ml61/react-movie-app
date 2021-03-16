@@ -3,9 +3,9 @@ import React from "react";
 const SearchForm = () => {
   return (
     <form>
-      <div class="ui icon input input-dark">
+      <div className="ui icon input input-dark">
         <input type="text" placeholder="Search..." />
-        <i class="search icon"></i>
+        <i className="search icon"></i>
       </div>
     </form>
   );

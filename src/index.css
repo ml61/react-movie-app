@@ -129,12 +129,12 @@ img {
 }
 
 .my-container {
-  width: 90%;
-  height: 100vh;
+  width: 100%;
+  height: calc(100vh - 64px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   /* align-items: stretch; */
 }
 .logo-box {
@@ -301,6 +301,10 @@ a {
 }
 .popular-flex-container svg:hover {
   color: rgba(169, 116, 190, 0.918);
+}
+.popular-flex-container svg:active {
+  color: rgb(216, 183, 231);
+  transform: translateY(2px);
 }
 .my-poster-wrap {
   margin: 0 0.5rem;
