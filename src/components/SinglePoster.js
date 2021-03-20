@@ -2,9 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SinglePoster = ({ title, rating, overview, year, image, id }) => {
-  const showId = (id) => {
-    console.log(id);
-  };
+
 
   return (
     <Link to={`/movie/${id}`}>

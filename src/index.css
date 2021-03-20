@@ -259,7 +259,8 @@ a {
 }
 
 .genre-name-text-active {
-  border: 2px solid rgba(79, 16, 104, 0.918);
+  border: 1px solid rgba(169, 116, 190, 0.918);
+  color: var(--mainWhite);
 }
 /* 
   .flaticon-left-chevron {
@@ -435,6 +436,7 @@ a {
   display: flex;
   flex-direction: column;
   width: 48%;
+  /* justify-content: space-around; */
 }
 .description {
   font-family: inherit;
@@ -456,10 +458,12 @@ a {
 .rating-section-item {
   display: flex;
   justify-content: center;
+  font-family: "Montserrat", sans-serif;
 }
 .rating-section-item span {
   padding-left: 1rem;
   font-size: 1.5rem;
+  font-family: inherit;
 }
 .select-item {
   font-family: "Montserrat", sans-serif;
