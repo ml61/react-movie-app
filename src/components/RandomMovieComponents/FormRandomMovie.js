@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import SingleFormOption from "./SingleFormOption";
 
-const FormRandomMovie = ({ handleYear, handleRating }) => {
+const FormRandomMovie = ({
+  handleYear,
+  handleRating,
+  submitQueries,
+  queryParams,
+}) => {
   const [yearOption, setYearOption] = useState("Year not earlier than");
   const [ratingOption, setRatingOption] = useState("Rating not less than");
   let movieYears = [];
@@ -46,7 +51,14 @@ const FormRandomMovie = ({ handleYear, handleRating }) => {
           })}
         </select>
       </div>
-      <button type="submit" class="btn btn-dark mx-2 p-2">
+      <button
+        type="submit"
+        class="btn btn-dark mx-2 p-2"
+        onClick={(e) => {
+          e.preventDefault();
+          submitQueries(queryParams);
+        }}
+      >
         Generate random movie
       </button>
     </form>
