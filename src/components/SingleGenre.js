@@ -1,18 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const SingleGenre = ({ name, id, currentGenre, handleGenre }) => {
+const SingleGenre = ({ name: genreName, id, currentGenre }) => {
   return (
     <li>
       <div class="row">
-        <div
-          class={`col genre-name-text border-hover p-0.5 px-4 bg-dark ${
-            name === currentGenre ? "genre-name-text-active" : ""
-          }`}
-          id={id}
-          onClick={(e) => handleGenre(e.target.id, e.target.outerText)}
-        >
-          {name}
-        </div>
+        <Link to={`/all-genres/${id + "_" + genreName}`}>
+          <div
+            class={`col genre-name-text border-hover p-0.5 px-4 bg-dark ${
+              currentGenre === genreName ? "genre-name-text-active" : ""
+            } `}
+          >
+            {genreName}
+          </div>
+        </Link>
       </div>
     </li>
   );

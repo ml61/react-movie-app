@@ -44,7 +44,8 @@ const SliderHome = () => {
       setPopular(newPopular);
       setLoading(false);
     } catch (err) {
-      setError(err);
+      setError(err.message);
+      setLoading(false);
     }
   };
 

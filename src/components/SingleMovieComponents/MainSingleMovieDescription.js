@@ -12,7 +12,7 @@ import Error from "../Error";
 import axios from "axios";
 import { api_key, URL } from "../../DataAPI";
 
-const MainSingleMovieDescription = ({ id, handleCurrentGenre }) => {
+const MainSingleMovieDescription = ({ id }) => {
   const [details, setDetails] = useState({});
 
   const [loading, setLoading] = useState(false);
@@ -80,7 +80,7 @@ const MainSingleMovieDescription = ({ id, handleCurrentGenre }) => {
       };
 
       setDetails(movieDetails);
-      handleCurrentGenre(movieDetails.genres.split(", ")[0]);
+
       setLoading(false);
     } catch (err) {
       setError(err);

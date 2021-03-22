@@ -1,10 +1,8 @@
 import React from "react";
 import SearchForm from "./SearchForm";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 
 const Menu = () => {
-  const history = useHistory();
   return (
     <header className="nav-container">
       <Link to="/" style={{ textDecoration: "none" }}>
@@ -16,7 +14,7 @@ const Menu = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <div className="menu-item">home</div>
         </Link>
-        <Link to="/all-genres" style={{ textDecoration: "none" }}>
+        <Link to="/all-genres/16_Animation" style={{ textDecoration: "none" }}>
           <div className="menu-item">all genres</div>
         </Link>
         <Link to="/favourite" style={{ textDecoration: "none" }}>

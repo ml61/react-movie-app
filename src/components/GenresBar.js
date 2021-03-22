@@ -3,9 +3,8 @@ import SingleGenre from "./SingleGenre";
 import axios from "axios";
 
 import { api_key, URL } from "../DataAPI";
-import Error from "./Error";
 
-const GenresBar = ({ currentGenre, handleGenre }) => {
+const GenresBar = ({ currentGenre }) => {
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState([]);
   const [error, setError] = useState("");
@@ -19,8 +18,6 @@ const GenresBar = ({ currentGenre, handleGenre }) => {
         params: { api_key },
       });
       let genreNames = response.data.genres.map((item) => item);
-      const randomGenre = { id: 1, name: "Random Genre" };
-      genreNames.unshift(randomGenre);
       setGenres(genreNames);
       setLoading(false);
     } catch (err) {
@@ -38,13 +35,7 @@ const GenresBar = ({ currentGenre, handleGenre }) => {
       <div class="container">
         <ul>
           {genres.map((item) => {
-            return (
-              <SingleGenre
-                {...item}
-                currentGenre={currentGenre}
-                handleGenre={handleGenre}
-              />
-            );
+            return <SingleGenre {...item} currentGenre={currentGenre} />;
           })}
         </ul>
       </div>

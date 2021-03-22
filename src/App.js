@@ -17,7 +17,7 @@ const App = () => {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/all-genres">
+            <Route path="/all-genres/:id_genreName">
               <AllGenres />
             </Route>
             <Route path="/favourite">

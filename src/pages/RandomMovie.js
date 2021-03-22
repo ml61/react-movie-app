@@ -11,11 +11,11 @@ import { api_key, URL } from "../DataAPI";
 const RandomMovie = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [yearOption, setYearOption] = useState("");
-  const [ratingOption, setRatingOption] = useState("");
+  const [yearOption, setYearOption] = useState("Year not earlier than");
+  const [ratingOption, setRatingOption] = useState("Rating not less than");
   const [chosenGenreId, setChosenGenreId] = useState(1);
-  const [currentGenre, setCurrentGenre] = useState("Random Genre");
-  const [generatedMovieId, setGeneratedMovieId] = useState("");
+
+  const [generatedMovieId, setGeneratedMovieId] = useState(522627);
 
   const api = axios.create({ baseURL: URL });
 
@@ -25,9 +25,8 @@ const RandomMovie = () => {
   const handleRating = (rating) => {
     setRatingOption(rating);
   };
-  const handleGenre = (id, genreName) => {
-    setChosenGenreId(id);
-    setCurrentGenre(genreName);
+  const handleGenre = (genreId) => {
+    setChosenGenreId(genreId);
   };
 
   const queryParams = {
@@ -38,7 +37,20 @@ const RandomMovie = () => {
 
   const submitQueries = async ({ minYear, minRating, genreId }) => {
     setLoading(true);
-    // const getList =
+
+    const getList = async (page = 1) => {
+      return api.get("/discover/movie", {
+        params: {
+          api_key,
+          with_genres: genreId,
+          "vote_average.gte": minRating,
+          "primary_release_date.gte": minYear + "-01-01",
+          "vote_count.gte": 1000,
+          page: page,
+        },
+      });
+    };
+
     if (genreId === 1) {
       const responseGenres = await api.get("/genre/movie/list", {
         params: { api_key },
@@ -47,34 +59,33 @@ const RandomMovie = () => {
       genreId = genreIds[Math.floor(Math.random() * genreIds.length)];
     }
     try {
-      const response = await api.get("/discover/movie", {
-        params: {
-          api_key,
-          with_genres: genreId,
-          "vote_average.gte": minRating,
-          "primary_release_date.gte": minYear + "-01-01",
-          "vote_count.gte": 1000,
-        },
-      });
+      const response = await getList();
       const { data } = response;
+
       let { total_results: totalResults } = data;
       if (!totalResults) {
-        let err =
-          "We have not any results, please change your request and try again.";
+        let err = {
+          message: "We have not any results, please change your request.",
+        };
         throw err;
       }
       let randomResultPosition = Math.floor(Math.random() * totalResults);
       let pageNumber = Math.ceil(randomResultPosition / 20);
-      randomResultPosition = randomResultPosition - pageNumber * 20 - 1;
+      randomResultPosition = randomResultPosition - (pageNumber - 1) * 20 - 1;
+      const responseFinal = await getList(pageNumber);
+      const { results } = responseFinal.data;
+      setError(false);
+      setGeneratedMovieId(results[randomResultPosition].id);
 
-      const responseFinal =
-        // setGeneratedMovieId(randomResultPosition.)
-        console.log(data, chosenGenreId, randomResultPosition);
       setLoading(false);
     } catch (err) {
-      setError(err);
+      setError(err.message);
       setLoading(false);
     }
+  };
+
+  const handleCurrentGenre = (value) => {
+    return;
   };
 
   if (loading) return <Loading />;
@@ -84,17 +95,24 @@ const RandomMovie = () => {
       <FormRandomMovie
         handleYear={handleYear}
         handleRating={handleRating}
+        handleGenre={handleGenre}
         submitQueries={submitQueries}
         queryParams={queryParams}
+        yearOption={yearOption}
+        ratingOption={ratingOption}
+        chosenGenreId={chosenGenreId}
       />
       <div class="flex-container-movie">
-        <GenresBar currentGenre={currentGenre} handleGenre={handleGenre} />
+        {/* <GenresBar currentGenre={currentGenre} handleGenre={handleGenre} /> */}
+
         {error ? (
           <Error err={error} />
         ) : (
-          <MainSingleMovieDescription id={chosenGenreId} />
+          <MainSingleMovieDescription
+            id={generatedMovieId}
+            handleCurrentGenre={handleCurrentGenre}
+          />
         )}
-        {/* <MainSingleMovieDescription id={chosenGenreId} /> */}
       </div>
     </>
   );

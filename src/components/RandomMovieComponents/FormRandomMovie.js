@@ -1,38 +1,85 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SingleFormOption from "./SingleFormOption";
+import axios from "axios";
+
+import { api_key, URL } from "../../DataAPI";
 
 const FormRandomMovie = ({
   handleYear,
   handleRating,
+  handleGenre,
   submitQueries,
   queryParams,
+  yearOption,
+  ratingOption,
+  chosenGenreId,
 }) => {
-  const [yearOption, setYearOption] = useState("Year not earlier than");
-  const [ratingOption, setRatingOption] = useState("Rating not less than");
-  let movieYears = [];
-  for (let i = new Date().getFullYear(); i > 1979; i--) {
-    movieYears.push(i);
-  }
-  let ratingValues = [];
-  for (let i = 9; i > 4; i -= 0.5) {
-    ratingValues.push(i);
-  }
-  movieYears.unshift("Year not earlier than");
-  ratingValues.unshift("Rating not less than");
+  const [genres, setGenres] = useState([]);
+  const [years, setYears] = useState([]);
+  const [rating, setRating] = useState([]);
+
+  const api = axios.create({ baseURL: URL });
+
+  const getGenres = async () => {
+    const response = await api.get("/genre/movie/list", {
+      params: { api_key },
+    });
+    let genresRes = response.data.genres.map((item) => item);
+    const randomGenre = { id: 1, name: "Random Genre" };
+    genresRes.unshift(randomGenre);
+    setGenres(genresRes);
+  };
+
+  const getYears = () => {
+    let movieYears = [];
+    for (let i = new Date().getFullYear(); i > 1979; i--) {
+      movieYears.push(i);
+    }
+    movieYears.unshift("Year not earlier than");
+    setYears(movieYears);
+  };
+  const getRating = () => {
+    let ratingValues = [];
+    for (let i = 9; i > 4; i -= 0.5) {
+      ratingValues.push(i);
+    }
+    ratingValues.unshift("Rating not less than");
+    setRating(ratingValues);
+  };
+
+  useEffect(() => {
+    getGenres();
+    getYears();
+    getRating();
+  }, []);
+
   return (
     <form class="form-inline d-flex justify-content-center align-items-center">
       <div class="select-item mx-2">
         <select
           class="form-select text-light bg-dark border-0"
           aria-label="Default select example"
+          value={chosenGenreId}
+          onChange={(e) => {
+            handleGenre(e.target.value);
+          }}
+        >
+          {genres.map((genre) => {
+            return <SingleFormOption option={genre.name} value={genre.id} />;
+          })}
+        </select>
+      </div>
+      <div class="select-item mx-2">
+        <select
+          class="form-select text-light bg-dark border-0"
+          aria-label="Default select example"
           value={yearOption}
           onChange={(e) => {
-            setYearOption(e.target.value);
             handleYear(e.target.value);
           }}
         >
-          {movieYears.map((year) => {
-            return <SingleFormOption option={year} />;
+          {years.map((year) => {
+            return <SingleFormOption option={year} value={year} />;
           })}
         </select>
       </div>
@@ -42,12 +89,11 @@ const FormRandomMovie = ({
           aria-label="Default select example"
           value={ratingOption}
           onChange={(e) => {
-            setRatingOption(e.target.value);
             handleRating(e.target.value);
           }}
         >
-          {ratingValues.map((rating) => {
-            return <SingleFormOption option={rating} />;
+          {rating.map((rating) => {
+            return <SingleFormOption option={rating} value={rating} />;
           })}
         </select>
       </div>

@@ -5,19 +5,11 @@ import MainSingleMovieDescription from "../components/SingleMovieComponents/Main
 
 const SingleMovie = () => {
   const { id } = useParams();
-  const [currentGenre, setCurrentGenre] = useState("");
-
-  const handleCurrentGenre = (genre) => {
-    setCurrentGenre(genre);
-  };
 
   return (
     <div class="flex-container-movie">
-      <GenresBar currentGenre={currentGenre} />
-      <MainSingleMovieDescription
-        id={id}
-        handleCurrentGenre={handleCurrentGenre}
-      />
+      <GenresBar />
+      <MainSingleMovieDescription id={id} />
     </div>
   );
 };
