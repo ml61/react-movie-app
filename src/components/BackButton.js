@@ -4,10 +4,6 @@ import { useHistory } from "react-router-dom";
 const BackBtn = () => {
   let history = useHistory();
 
-  const showName = () => {
-    console.log("maxon");
-  };
-
   return (
     <button
       type="button"

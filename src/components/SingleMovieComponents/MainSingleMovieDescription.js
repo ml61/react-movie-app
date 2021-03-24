@@ -4,7 +4,9 @@ import Description from "./Description";
 
 import TmdbRating from "./TmdbRating";
 import IframeAndPoster from "./IframeAndPoster";
+import FavouriteBtn from "../FavouriteBtn";
 import InfoTabel from "./InfoTabel";
+import BackButton from "../BackButton";
 
 import Loading from "../Loading";
 import Error from "../Error";
@@ -101,7 +103,11 @@ const MainSingleMovieDescription = ({ id }) => {
       <div class="description-section-container">
         <Description {...details} rating={details.rating} />
       </div>
-      <TmdbRating rating={details.rating} />
+      <div class="rating-section-container ms-2">
+        <TmdbRating rating={details.rating} />
+        <FavouriteBtn currentMovieId={id} {...details} />
+        <BackButton />
+      </div>
     </>
   );
 };

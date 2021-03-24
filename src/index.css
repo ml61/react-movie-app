@@ -354,6 +354,7 @@ a {
 .flex-container-movie {
   display: flex;
   margin-top: 0.5rem;
+  justify-content: center;
 }
 .single-movie-container {
   display: flex;

@@ -14,7 +14,10 @@ const Menu = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <div className="menu-item">home</div>
         </Link>
-        <Link to="/all-genres/16_Animation" style={{ textDecoration: "none" }}>
+        <Link
+          to="/all-genres/16_Animation?page=1"
+          style={{ textDecoration: "none" }}
+        >
           <div className="menu-item">all genres</div>
         </Link>
         <Link to="/favourite" style={{ textDecoration: "none" }}>
