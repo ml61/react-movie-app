@@ -1,28 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+// import BasicPagination from "../components/BasicPagination";
+// import PostersContainer from "../components/PostersContainer";
+import GenresBar from "../components/GenresBar";
+import FavouritePostersContainer from "../components/FavouritePostersContainer";
+import { useGlobalContext } from "../context";
 
 const Favourite = () => {
+  const { favouriteMovies } = useGlobalContext();
+
   const [currentPage, setCurrentPage] = useState(null);
-  const [currentGenre, setCurrentGenre] = useState("");
+
   const [totalPages, setTotalPages] = useState(null);
+
   return (
     <div class="my-flex-container">
-      <GenresBar currentGenre={currentGenre} />
+      <GenresBar />
       <div class="my-flex-item-posters">
         <div class="d-flex justify-content-center mb-3">
-          <BasicPagination
+          {/* <BasicPagination
             totalPages={totalPages}
             handleChangePage={handleChangePage}
             currentPage={currentPage}
-          />
+          /> */}
         </div>
-        <PostersContainer genreId={genreId} currentPage={currentPage} />
-        <div class="d-flex justify-content-center mb-5">
-          <BasicPagination
-            totalPages={totalPages}
-            handleChangePage={handleChangePage}
-            currentPage={currentPage}
-          />
-        </div>
+        <FavouritePostersContainer movies={favouriteMovies} />
       </div>
     </div>
   );

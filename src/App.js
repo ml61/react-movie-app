@@ -6,6 +6,7 @@ import AllGenres from "./pages/AllGenres";
 import Favourite from "./pages/Favourite";
 import RandomMovie from "./pages/RandomMovie";
 import SingleMovie from "./pages/SingleMovie";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const App = () => {
   return (
@@ -28,6 +29,9 @@ const App = () => {
             </Route>
             <Route path="/movie/:id">
               <SingleMovie />
+            </Route>
+            <Route path="/search">
+              <SearchResultsPage />
             </Route>
             {/* <Route path="/*">
           <Error />

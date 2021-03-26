@@ -79,6 +79,7 @@ const MainSingleMovieDescription = ({ id }) => {
         trailer,
         casting,
         director,
+        id,
       };
 
       setDetails(movieDetails);
@@ -105,7 +106,7 @@ const MainSingleMovieDescription = ({ id }) => {
       </div>
       <div class="rating-section-container ms-2">
         <TmdbRating rating={details.rating} />
-        <FavouriteBtn currentMovieId={id} {...details} />
+        <FavouriteBtn movie={details} />
         <BackButton />
       </div>
     </>

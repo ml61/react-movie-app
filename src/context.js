@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 // import { useCallback } from "react";
 // import Loading from "./components/Loading";
 // import axios from "axios";
@@ -6,22 +7,33 @@ import React, { useState, useContext, useEffect } from "react";
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
-  const [favouriteMoviesIDs, setFavouriteMoviesIDs] = useState([]);
+  const [favouriteMovies, setFavouriteMovies] = useState([]);
+  const [finalQuery, setFinalQuery] = useState("");
 
-  const handleClick = (idClicked) => {
-    if (favouriteMoviesIDs.includes(idClicked)) {
-      const newFavouriteMoviesIDs = favouriteMoviesIDs.filter(
-        (favouriteMovieId) => favouriteMovieId !== idClicked
+  const handleClick = (movieClicked) => {
+    if (
+      favouriteMovies
+        .map((favouriteMovie) => favouriteMovie.id)
+        .includes(movieClicked.id)
+    ) {
+      const newfavouriteMovies = favouriteMovies.filter(
+        (favouriteMovie) => favouriteMovie.id !== movieClicked.id
       );
-      setFavouriteMoviesIDs(newFavouriteMoviesIDs);
+      setFavouriteMovies(newfavouriteMovies);
     }
-    if (!favouriteMoviesIDs.includes(idClicked)) {
-      setFavouriteMoviesIDs([...favouriteMoviesIDs, idClicked]);
+    if (
+      !favouriteMovies
+        .map((favouriteMovie) => favouriteMovie.id)
+        .includes(movieClicked.id)
+    ) {
+      setFavouriteMovies([...favouriteMovies, movieClicked]);
     }
   };
 
   return (
-    <AppContext.Provider value={{ favouriteMoviesIDs, handleClick }}>
+    <AppContext.Provider
+      value={{ favouriteMovies, handleClick, finalQuery, setFinalQuery }}
+    >
       {children}
     </AppContext.Provider>
   );
