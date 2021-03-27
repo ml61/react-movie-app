@@ -1,8 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-// import { useCallback } from "react";
-// import Loading from "./components/Loading";
-// import axios from "axios";
+import React, { useState, useContext } from "react";
 
 const AppContext = React.createContext();
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useGlobalContext } from "../context";
 
@@ -8,7 +8,7 @@ const FavouriteBtn = ({ movie }) => {
   return (
     <button
       type="button"
-      class="btn btn-dark p-3"
+      className="btn btn-dark p-3"
       onClick={() => handleClick(movie)}
     >
       {favouriteMovies

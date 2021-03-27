@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import GenresBar from "../components/GenresBar";
-import MainSingleMovieDescription from "../components/SingleMovieComponents/MainSingleMovieDescription";
-import FormRandomMovie from "../components/RandomMovieComponents/FormRandomMovie";
+import MainSingleMovieDescription from "../components/MainSingleMovieDescription";
+import FormRandomMovie from "../components/FormRandomMovie";
 
 import axios from "axios";
 import { api_key, URL } from "../DataAPI";
@@ -35,21 +34,21 @@ const RandomMovie = () => {
     genreId: chosenGenreId,
   };
 
+  const getList = async (minYear, minRating, genreId, page = 1) => {
+    return api.get("/discover/movie", {
+      params: {
+        api_key,
+        with_genres: genreId,
+        "vote_average.gte": minRating,
+        "primary_release_date.gte": minYear + "-01-01",
+        "vote_count.gte": 1000,
+        page: page,
+      },
+    });
+  };
+
   const submitQueries = async ({ minYear, minRating, genreId }) => {
     setLoading(true);
-
-    const getList = async (page = 1) => {
-      return api.get("/discover/movie", {
-        params: {
-          api_key,
-          with_genres: genreId,
-          "vote_average.gte": minRating,
-          "primary_release_date.gte": minYear + "-01-01",
-          "vote_count.gte": 1000,
-          page: page,
-        },
-      });
-    };
 
     if (genreId === 1) {
       const responseGenres = await api.get("/genre/movie/list", {
@@ -58,8 +57,9 @@ const RandomMovie = () => {
       let genreIds = responseGenres.data.genres.map((item) => item.id);
       genreId = genreIds[Math.floor(Math.random() * genreIds.length)];
     }
+    let pageNumber;
     try {
-      const response = await getList();
+      const response = await getList(minYear, minRating, genreId, pageNumber);
       const { data } = response;
 
       let { total_results: totalResults } = data;
@@ -70,9 +70,15 @@ const RandomMovie = () => {
         throw err;
       }
       let randomResultPosition = Math.floor(Math.random() * totalResults);
-      let pageNumber = Math.ceil(randomResultPosition / 20);
+      pageNumber = Math.ceil(randomResultPosition / 20);
       randomResultPosition = randomResultPosition - (pageNumber - 1) * 20 - 1;
-      const responseFinal = await getList(pageNumber);
+
+      const responseFinal = await getList(
+        minYear,
+        minRating,
+        genreId,
+        pageNumber
+      );
       const { results } = responseFinal.data;
       setError(false);
       setGeneratedMovieId(results[randomResultPosition].id);
@@ -102,7 +108,7 @@ const RandomMovie = () => {
         ratingOption={ratingOption}
         chosenGenreId={chosenGenreId}
       />
-      <div class="flex-container-movie">
+      <div className="flex-container-movie">
         {/* <GenresBar currentGenre={currentGenre} handleGenre={handleGenre} /> */}
 
         {error ? (

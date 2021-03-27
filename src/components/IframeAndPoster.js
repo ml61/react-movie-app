@@ -10,9 +10,10 @@ const IframeAndPoster = ({ image, trailer }) => {
       />
       <iframe
         src={`https://www.youtube.com/embed/${trailer}`}
-        frameborder="0"
+        frameBorder="0"
         allow="autoplay; encrypted-media"
-        allowfullscreen
+        allowFullScreen
+        title={trailer}
       ></iframe>
     </div>
   );

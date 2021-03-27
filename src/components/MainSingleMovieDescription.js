@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Description from "./Description";
 
 import TmdbRating from "./TmdbRating";
 import IframeAndPoster from "./IframeAndPoster";
-import FavouriteBtn from "../FavouriteBtn";
-import InfoTabel from "./InfoTabel";
-import BackButton from "../BackButton";
+import FavouriteBtn from "./FavouriteBtn";
+import BackButton from "./BackButton";
 
-import Loading from "../Loading";
-import Error from "../Error";
+import Loading from "./Loading";
+import Error from "./Error";
 
 import axios from "axios";
-import { api_key, URL } from "../../DataAPI";
+import { api_key, URL } from "../DataAPI";
 
 const MainSingleMovieDescription = ({ id }) => {
   const [details, setDetails] = useState({});
@@ -22,7 +21,7 @@ const MainSingleMovieDescription = ({ id }) => {
 
   const api = axios.create({ baseURL: URL });
 
-  const getDetails = async () => {
+  const getDetails = useCallback(async () => {
     setLoading(true);
     try {
       const responseDetails = await api.get(`/movie/${id}`, {
@@ -81,7 +80,6 @@ const MainSingleMovieDescription = ({ id }) => {
         director,
         id,
       };
-
       setDetails(movieDetails);
 
       setLoading(false);
@@ -89,11 +87,11 @@ const MainSingleMovieDescription = ({ id }) => {
       setError(err);
     }
     setLoading(false);
-  };
+  }, [id]);
 
   useEffect(() => {
     getDetails();
-  }, []);
+  }, [getDetails]);
 
   if (loading) return <Loading />;
   if (error) return <Error />;
@@ -101,10 +99,10 @@ const MainSingleMovieDescription = ({ id }) => {
   return (
     <>
       <IframeAndPoster image={details.image} trailer={details.trailer} />
-      <div class="description-section-container">
+      <div className="description-section-container">
         <Description {...details} rating={details.rating} />
       </div>
-      <div class="rating-section-container ms-2">
+      <div className="rating-section-container ms-2">
         <TmdbRating rating={details.rating} />
         <FavouriteBtn movie={details} />
         <BackButton />

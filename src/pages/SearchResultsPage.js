@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import FavouritePostersContainer from "../components/FavouritePostersContainer";
+import React, { useCallback, useEffect, useState } from "react";
+import PostersContainer from "../components/PostersContainer";
 import GenresBar from "../components/GenresBar";
 import { useGlobalContext } from "../context";
 
@@ -16,7 +16,7 @@ const SearchResultsPage = () => {
 
   const api = axios.create({ baseURL: URL });
 
-  const getSearchMovies = async () => {
+  const getSearchMovies = useCallback(async () => {
     const response = await api.get("/search/movie", {
       params: { api_key, query: finalQuery },
     });
@@ -31,32 +31,34 @@ const SearchResultsPage = () => {
         poster_path: image,
         id,
       } = movie;
+      overview =
+        overview.length > 210 ? overview.slice(0, 210) + " ..." : overview;
 
       const newMovie = {
         title,
         rating,
         overview,
-        year,
-        image,
+        year: year.slice(0, 4),
+        image: "https://image.tmdb.org/t/p/w500" + image,
         id,
       };
       return newMovie;
     });
     setSearchMovies(movies);
-  };
+  }, [api, finalQuery]);
 
   useEffect(() => {
     getSearchMovies();
-  }, [finalQuery]);
+  }, [getSearchMovies]);
 
   return (
-    <div class="my-flex-container">
+    <div className="my-flex-container">
       <GenresBar />
-      <div class="my-flex-item-posters">
-        <div class="d-flex justify-content-center mb-3">
+      <div className="my-flex-item-posters">
+        <div className="d-flex justify-content-center mb-3">
           <h1>Searching "{finalQuery}"</h1>
         </div>
-        <FavouritePostersContainer movies={searchMovies} />
+        <PostersContainer movies={searchMovies} />
       </div>
     </div>
   );

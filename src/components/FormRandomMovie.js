@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SingleFormOption from "./SingleFormOption";
 import axios from "axios";
 
-import { api_key, URL } from "../../DataAPI";
+import { api_key, URL } from "../DataAPI";
 
 const FormRandomMovie = ({
   handleYear,
@@ -54,10 +54,10 @@ const FormRandomMovie = ({
   }, []);
 
   return (
-    <form class="form-inline d-flex justify-content-center align-items-center">
-      <div class="select-item mx-2">
+    <form className="form-inline d-flex justify-content-center align-items-center">
+      <div className="select-item mx-2">
         <select
-          class="form-select text-light bg-dark border-0"
+          className="form-select text-light bg-dark border-0"
           aria-label="Default select example"
           value={chosenGenreId}
           onChange={(e) => {
@@ -69,9 +69,9 @@ const FormRandomMovie = ({
           })}
         </select>
       </div>
-      <div class="select-item mx-2">
+      <div className="select-item mx-2">
         <select
-          class="form-select text-light bg-dark border-0"
+          className="form-select text-light bg-dark border-0"
           aria-label="Default select example"
           value={yearOption}
           onChange={(e) => {
@@ -83,9 +83,9 @@ const FormRandomMovie = ({
           })}
         </select>
       </div>
-      <div class="select-item mx-2">
+      <div className="select-item mx-2">
         <select
-          class="form-select text-light bg-dark border-0"
+          className="form-select text-light bg-dark border-0"
           aria-label="Default select example"
           value={ratingOption}
           onChange={(e) => {
@@ -99,7 +99,7 @@ const FormRandomMovie = ({
       </div>
       <button
         type="submit"
-        class="btn btn-dark mx-2 p-2"
+        className="btn btn-dark mx-2 p-2"
         onClick={(e) => {
           e.preventDefault();
           submitQueries(queryParams);

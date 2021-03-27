@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import GenresBar from "../components/GenresBar";
-import MainSingleMovieDescription from "../components/SingleMovieComponents/MainSingleMovieDescription";
+import MainSingleMovieDescription from "../components/MainSingleMovieDescription";
 
 const SingleMovie = () => {
   const { id } = useParams();
 
   return (
-    <div class="flex-container-movie">
+    <div className="flex-container-movie">
       <GenresBar />
       <MainSingleMovieDescription id={id} />
     </div>

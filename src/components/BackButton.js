@@ -7,7 +7,7 @@ const BackBtn = () => {
   return (
     <button
       type="button"
-      class="btn btn-primary mt-4"
+      className="btn btn-primary mt-4"
       onClick={() => {
         history.goBack();
       }}

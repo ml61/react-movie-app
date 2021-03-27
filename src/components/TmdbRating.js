@@ -3,7 +3,7 @@ import SingleStar from "./SingleStar";
 
 const TmdbRating = ({ rating }) => {
   return (
-    <div class="rating-section-item mb-4">
+    <div className="rating-section-item mb-4">
       <SingleStar />
       <span>{rating}</span>
     </div>

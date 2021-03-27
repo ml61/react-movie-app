@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SinglePoster from "./SinglePoster";
 import Loading from "../components/Loading";
 import axios from "axios";
-import { useGlobalContext } from "../context";
 import { api_key, URL } from "../DataAPI";
 import Error from "./Error";
 
@@ -14,7 +13,7 @@ const SliderHome = () => {
 
   const api = axios.create({ baseURL: URL });
 
-  const getPopular = async () => {
+  const getPopular = useCallback(async () => {
     setLoading(true);
     try {
       const response = await api.get("/movie/popular", { params: { api_key } });
@@ -47,11 +46,11 @@ const SliderHome = () => {
       setError(err.message);
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getPopular();
-  }, []);
+  }, [getPopular]);
 
   const nextPage = () => {
     if (numberPage < 4) {
@@ -90,7 +89,7 @@ const SliderHome = () => {
         />
       </svg>
       {popular.slice((0 + numberPage - 1) * 5, 5 * numberPage).map((item) => {
-        return <SinglePoster {...item} />;
+        return <SinglePoster {...item} key={item.id} />;
       })}
 
       <svg
