@@ -25,8 +25,8 @@ const FormRandomMovie = ({
       params: { api_key },
     });
     let genresRes = response.data.genres.map((item) => item);
-    const randomGenre = { id: 1, name: "Random Genre" };
-    genresRes.unshift(randomGenre);
+    const allGenres = { id: 1, name: "All genres" };
+    genresRes.unshift(allGenres);
     setGenres(genresRes);
   };
 

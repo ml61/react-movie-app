@@ -34,7 +34,7 @@ const RandomMovie = () => {
     genreId: chosenGenreId,
   };
 
-  const getList = async (minYear, minRating, genreId, page = 1) => {
+  const getMovieListOfChosenGenre = (minYear, minRating, genreId, page = 1) => {
     return api.get("/discover/movie", {
       params: {
         api_key,
@@ -46,20 +46,37 @@ const RandomMovie = () => {
       },
     });
   };
+  const getMovieListOfAllGenres = (minYear, minRating, page = 1) => {
+    return api.get("/discover/movie", {
+      params: {
+        api_key,
+        "vote_average.gte": minRating,
+        "primary_release_date.gte": minYear + "-01-01",
+        "vote_count.gte": 1000,
+        page: page,
+      },
+    });
+  };
 
   const submitQueries = async ({ minYear, minRating, genreId }) => {
     setLoading(true);
-
-    if (genreId === 1) {
-      const responseGenres = await api.get("/genre/movie/list", {
-        params: { api_key },
-      });
-      let genreIds = responseGenres.data.genres.map((item) => item.id);
-      genreId = genreIds[Math.floor(Math.random() * genreIds.length)];
-    }
-    let pageNumber;
+    let pageNumber = 1;
+    let response;
     try {
-      const response = await getList(minYear, minRating, genreId, pageNumber);
+      if (genreId == 1) {
+        response = await getMovieListOfAllGenres(
+          minYear,
+          minRating,
+          pageNumber
+        );
+      } else {
+        response = await getMovieListOfChosenGenre(
+          minYear,
+          minRating,
+          genreId,
+          pageNumber
+        );
+      }
       const { data } = response;
 
       let { total_results: totalResults } = data;
@@ -70,15 +87,24 @@ const RandomMovie = () => {
         throw err;
       }
       let randomResultPosition = Math.floor(Math.random() * totalResults);
-      pageNumber = Math.ceil(randomResultPosition / 20);
-      randomResultPosition = randomResultPosition - (pageNumber - 1) * 20 - 1;
+      pageNumber = Math.floor(randomResultPosition / 20 + 1);
+      randomResultPosition = randomResultPosition - (pageNumber - 1) * 20;
 
-      const responseFinal = await getList(
-        minYear,
-        minRating,
-        genreId,
-        pageNumber
-      );
+      let responseFinal;
+      if (genreId == 1) {
+        responseFinal = await getMovieListOfAllGenres(
+          minYear,
+          minRating,
+          pageNumber
+        );
+      } else {
+        responseFinal = await getMovieListOfChosenGenre(
+          minYear,
+          minRating,
+          genreId,
+          pageNumber
+        );
+      }
       const { results } = responseFinal.data;
       setError(false);
       setGeneratedMovieId(results[randomResultPosition].id);
